@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=academy
+      - MYSQL_USER=medivka
+      - MYSQL_PASSWORD=Medivka123654
+    ports:
+      - 3307:3306
+#    restart: unless-stopped
+  db-profile:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=profile
+      - MYSQL_USER=medivka
+      - MYSQL_PASSWORD=Medivka123654
+    ports:
+      - 3308:3306
+
+  data-base-app:
+    image: openjdk:11.0.10
+#    ports:
+#      - 8003:8003
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/academy?createDatabaseIfNotExist=true
+    depends_on:
+      - db
+    volumes:
+      - ./data_base-app/target/data_base-app-0.0.1-SNAPSHOT.jar:/target/data_base-app-0.0.1-SNAPSHOT.jar
+    entrypoint: [ "java", "-jar", "/target/data_base-app-0.0.1-SNAPSHOT.jar" ]
+    restart: on-failure:10
+
+  web-app:
+    image: openjdk:11.0.10
+    ports:
+        - 8001:8001
+    environment:
+        SPRING_DATASOURCE_URL: jdbc:mysql://db-profile:3306/profile?createDatabaseIfNotExist=true
+    depends_on:
+        - db-profile
+        - data-base-app
+    volumes:
+        - ./web-app/target/web-app-0.0.1-SNAPSHOT.jar:/web-app-0.0.1-SNAPSHOT.jar
+    entrypoint: [ "java", "-jar", "/web-app-0.0.1-SNAPSHOT.jar" ]
+    restart: on-failure:10

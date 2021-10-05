@@ -19,6 +19,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+/**
+ * @author Sacuta V.A.
+ */
+
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -37,7 +41,6 @@ class BServiceImplTest {
 
     @Test
     void when_Save_B_return_B() {
-
         B givenB = B.builder().address(ADDRESS_FIRST).build();
         B askedB = B.builder().address(ADDRESS_SECOND).build();
         Mockito.when(bDao.save(givenB)).thenReturn(askedB);

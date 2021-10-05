@@ -1,10 +1,9 @@
 package com.example.data_baseapp.controllers.rest;
 
-import com.example.data_baseapp.domain.dto.CDto;
 import com.example.data_baseapp.domain.dto.DDto;
 import com.example.data_baseapp.domain.model.D;
-import com.example.data_baseapp.service.DService;
 import com.example.data_baseapp.modelmapper.MyModelMapper;
+import com.example.data_baseapp.service.DService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -12,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.annotation.RequestScope;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,7 +42,7 @@ public class DRestController {
     @PostMapping(value = "/")
     public ResponseEntity<?> create(@RequestBody DDto dDto) {
         LOGGER.info(String.format("rest/save %s", dDto.getName()));
-        service.save(myModelMapper.map(dDto,D.class));
+        service.save(myModelMapper.map(dDto, D.class));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -52,8 +50,9 @@ public class DRestController {
     public ResponseEntity<?> update(@PathVariable(name = "id") Integer id, @RequestBody DDto dDto) {
         LOGGER.info(String.format("rest/d/get/{%s} ", id));
         boolean update = false;
-        if(service.exist(myModelMapper.map(dDto,D.class))){
-            service.update(myModelMapper.map(dDto,D.class));
+        if (service.exist(myModelMapper.map(dDto, D.class))) {
+            service.update(myModelMapper.map(dDto, D.class));
+            update = true;
         }
         return update
                 ? new ResponseEntity<>(HttpStatus.OK)
@@ -64,9 +63,9 @@ public class DRestController {
     public ResponseEntity<?> delete(@PathVariable(name = "id") Integer id) {
         LOGGER.info(String.format("rest/d/delete/{%s} ", id));
         boolean delete = false;
-        if(service.exist(service.findById(id))){
+        if (service.exist(service.findById(id))) {
             service.delete(service.findById(id));
-            delete=true;
+            delete = true;
         }
         return delete
                 ? new ResponseEntity<>(HttpStatus.OK)
@@ -76,7 +75,7 @@ public class DRestController {
     @GetMapping(value = "/all")
     public ResponseEntity<List<DDto>> read() {
         LOGGER.info("rest/d/get/all ");
-        final List<DDto> dDtoList=myModelMapper.mapCollections(service.getAll(), DDto.class);
+        final List<DDto> dDtoList = myModelMapper.mapCollections(service.getAll(), DDto.class);
         return dDtoList != null && !dDtoList.isEmpty()
                 ? new ResponseEntity<>(dDtoList, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);

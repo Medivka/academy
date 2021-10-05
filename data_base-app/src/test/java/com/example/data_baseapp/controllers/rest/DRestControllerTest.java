@@ -1,9 +1,12 @@
 package com.example.data_baseapp.controllers.rest;
 
-import com.example.data_baseapp.domain.dto.ADto;
-import com.example.data_baseapp.domain.model.A;
+import com.example.data_baseapp.domain.dto.CDto;
+import com.example.data_baseapp.domain.dto.DDto;
+import com.example.data_baseapp.domain.model.C;
+import com.example.data_baseapp.domain.model.D;
 import com.example.data_baseapp.modelmapper.MyModelMapper;
-import com.example.data_baseapp.service.AService;
+import com.example.data_baseapp.service.CService;
+import com.example.data_baseapp.service.DService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -22,18 +25,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-/**
- * @author Sacuta V.A.
- */
-
-
 @SpringBootTest
 @TestPropertySource(
         locations = "classpath:application-test.properties"
 )
 @AutoConfigureMockMvc
-class ARestControllerTest {
-
+class DRestControllerTest {
     private static final String invalidID = "12.34";
     @Autowired
     private MockMvc mockMvc;
@@ -42,14 +39,14 @@ class ARestControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
-    private AService aService;
+    private DService service;
 
     @SneakyThrows
     @Test
-    void should_response_status_200_is_create_A() {
-        MvcResult mvcResult = mockMvc.perform(post("/rest/a/")
+    void should_response_status_200_is_create_D() {
+        MvcResult mvcResult = mockMvc.perform(post("/rest/d/")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(getADto())))
+                        .content(objectMapper.writeValueAsString(getDDto())))
                 .andExpect(status().isCreated()).andReturn();
         int expectedStatusCode = HttpStatus.CREATED.value();
         int actualStatusCode = mvcResult.getResponse().getStatus();
@@ -58,8 +55,8 @@ class ARestControllerTest {
 
     @SneakyThrows
     @Test
-    void should_Response_Bad_Request400_whenCreating_A_with_InvalidJson() {
-        MvcResult mvcResult = mockMvc.perform(post("/rest/a/")
+    void should_Response_Bad_Request400_whenCreating_D_with_InvalidJson() {
+        MvcResult mvcResult = mockMvc.perform(post("/rest/d/")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError()).andReturn();
         int expectedStatusCode = HttpStatus.BAD_REQUEST.value();
@@ -69,9 +66,9 @@ class ARestControllerTest {
 
     @SneakyThrows
     @Test
-    void should_ResponseStatus200_OK_with_Valid_ID_A() {
-        A a = aService.save(getA());
-        MvcResult mvcResult = mockMvc.perform(get("/rest/a/{id}", a.getId()))
+    void should_ResponseStatus200_OK_with_Valid_ID_D() {
+        D d = service.save(getD());
+        MvcResult mvcResult = mockMvc.perform(get("/rest/d/{id}", d.getId()))
                 .andDo(print())
                 .andExpect(status().isOk()).andReturn();
         int expectedStatusCode = HttpStatus.OK.value();
@@ -81,13 +78,13 @@ class ARestControllerTest {
 
     @SneakyThrows
     @Test
-    void should_ResponseStatus200_Ok_update_A() {
-        ADto aDto = mapper.map(aService.save(getA()), ADto.class);
-        A a = aService.save(getA());
+    void should_ResponseStatus200_Ok_update_D() {
+        DDto dDto = mapper.map(service.save(getD()), DDto.class);
+        D d = service.save(getD());
         MvcResult mvcResult = mockMvc
-                .perform(put("/rest/a/{id}", a.getId())
+                .perform(put("/rest/d/{id}", d.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(aDto)))
+                        .content(objectMapper.writeValueAsString(dDto)))
                 .andDo(print()).andExpect(status().isOk()).andReturn();
         int expectedStatusCode = HttpStatus.OK.value();
         int actualStatusCode = mvcResult.getResponse().getStatus();
@@ -96,12 +93,12 @@ class ARestControllerTest {
 
     @SneakyThrows
     @Test
-    void shouldResponse400_update_A_with_InvalidID() {
-        ADto aDto = getADto();
+    void shouldResponse400_update_D_with_InvalidID() {
+        DDto dDto = getDDto();
         MvcResult mvcResult = mockMvc
-                .perform(put("/rest/a/{id}", invalidID)
+                .perform(put("/rest/d/{id}", invalidID)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(aDto)))
+                        .content(objectMapper.writeValueAsString(dDto)))
                 .andDo(print()).andExpect(status().is4xxClientError()).andReturn();
         int expectedStatusCode = HttpStatus.BAD_REQUEST.value();
         int actualStatusCode = mvcResult.getResponse().getStatus();
@@ -110,17 +107,17 @@ class ARestControllerTest {
 
     @SneakyThrows
     @Test
-    void should_ResponseIs200_Ok_Delete_with_Valid_id_A() {
-        A a = aService.save(getA());
-        mockMvc.perform(delete("/rest/a/{id}", a.getId()))
+    void should_ResponseIs200_Ok_Delete_with_Valid_id_D() {
+        D d = service.save(getD());
+        mockMvc.perform(delete("/rest/d/{id}", d.getId()))
                 .andExpect(status().isOk());
     }
 
     @SneakyThrows
     @Test
-    void should_ResponseIs400_Bad_Request_Delete_with_Invalid_id_A() {
+    void should_ResponseIs400_Bad_Request_Delete_with_Invalid_id_D() {
         MvcResult mvcResult = mockMvc
-                .perform(delete("/rest/a/{id}", invalidID))
+                .perform(delete("/rest/d/{id}", invalidID))
                 .andExpect(status().is4xxClientError()).andReturn();
         int expectedStatusCode = HttpStatus.BAD_REQUEST.value();
         int actualStatusCode = mvcResult.getResponse().getStatus();
@@ -129,8 +126,8 @@ class ARestControllerTest {
 
     @SneakyThrows
     @Test
-    void should_ResponseIsStatus200_Ok_Get_all_A() {
-        MvcResult mvcResult = mockMvc.perform(get("/rest/a/all"))
+    void should_ResponseIsStatus200_Ok_Get_all_D() {
+        MvcResult mvcResult = mockMvc.perform(get("/rest/d/all"))
                 .andDo(print())
                 .andExpect(status().isOk()).andReturn();
         int expectedStatusCode = HttpStatus.OK.value();
@@ -138,11 +135,11 @@ class ARestControllerTest {
         assertThat(actualStatusCode).isEqualTo(expectedStatusCode);
     }
 
-    private ADto getADto() {
-        return ADto.builder().name("test").build();
+    private DDto getDDto() {
+        return DDto.builder().name("CD").build();
     }
 
-    private A getA() {
-        return A.builder().name("test").build();
+    private D getD() {
+        return D.builder().name("DVD").build();
     }
 }

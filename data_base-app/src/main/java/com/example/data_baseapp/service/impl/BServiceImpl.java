@@ -49,9 +49,9 @@ public class BServiceImpl implements BService {
     }
 
     @Override
-    public void update(B b) {
+    public B update(B b) {
 //        daoEntity.update(b);
-        bDao.save(b);
+      return   bDao.save(b);
     }
 
     @Override

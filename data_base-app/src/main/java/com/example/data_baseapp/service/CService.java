@@ -16,7 +16,7 @@ public interface CService {
 
     C getById(Integer id);
 
-    void update(C c);
+    C update(C c);
 
     C findById(Integer id);
 

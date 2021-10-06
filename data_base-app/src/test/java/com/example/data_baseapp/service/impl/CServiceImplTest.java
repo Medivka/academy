@@ -10,11 +10,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -25,7 +22,6 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.LENIENT)
 public class CServiceImplTest {
 
     private static final Integer TEST_ID = 1;
@@ -52,7 +48,7 @@ public class CServiceImplTest {
     @Test
     void positive_Delete_C_by_entity() {
         C c = getC();
-        doNothing().when(cDao).delete(c);
+        lenient().doNothing().when(cDao).delete(c);
     }
 
     @Test
@@ -79,7 +75,6 @@ public class CServiceImplTest {
     @Test
     void should_update_C() {
         C c = getC();
-        when(cDao.findById(TEST_ID)).thenReturn(Optional.of(c));
         when(cDao.save(c)).thenReturn(c);
         c.setName(NAME_SECOND);
         C CExpected = service.save(c);

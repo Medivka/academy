@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
  */
 
 @RestController
-@RequestMapping("rest/c")
+@RequestMapping("web/c")
 public class CRestWebAppController {
 
     private final RestTemplate restTemplate;

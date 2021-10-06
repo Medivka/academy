@@ -44,9 +44,9 @@ public class AServiceImpl implements AService {
     }
 
     @Override
-    public void update(A a) {
+    public A update(A a) {
 //        aDaoEntity.update(a);
-        aDao.save(a);
+        return aDao.save(a);
     }
 
     @Override

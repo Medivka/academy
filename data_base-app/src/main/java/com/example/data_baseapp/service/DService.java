@@ -16,7 +16,7 @@ public interface DService {
 
     D getById(Integer id);
 
-    void update(D d);
+    D update(D d);
 
     D findById(Integer id);
 

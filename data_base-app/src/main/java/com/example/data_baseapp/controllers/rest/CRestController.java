@@ -46,17 +46,13 @@ public class CRestController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/{id}")
+    @PostMapping(value = "/{id}")
     public ResponseEntity<?> update(@PathVariable(name = "id") Integer id, @RequestBody CDto cDto) {
         LOGGER.info(String.format("rest/update/get/{%s} ", id));
-        boolean update = false;
         if (service.exist(myModelMapper.map(cDto, C.class))) {
-            service.update(myModelMapper.map(cDto, C.class));
-            update = true;
+            return new ResponseEntity<>(service.update(myModelMapper.map(cDto, C.class)), HttpStatus.OK);
         }
-        return update
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
     @DeleteMapping(value = "/{id}")

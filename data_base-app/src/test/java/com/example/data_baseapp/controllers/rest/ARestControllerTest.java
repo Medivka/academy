@@ -46,7 +46,7 @@ class ARestControllerTest {
 
     @SneakyThrows
     @Test
-    void should_response_status_200_is_create_A() {
+    void shouldResponseStatus200_is_create_A() {
         MvcResult mvcResult = mockMvc.perform(post("/rest/a/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(getADto())))

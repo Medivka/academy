@@ -5,16 +5,13 @@ import com.example.data_baseapp.domain.model.D;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -24,9 +21,7 @@ import static org.mockito.Mockito.*;
  * @author Sacuta V.A.
  */
 
-@SpringBootTest
-@RunWith(SpringRunner.class)
-@TestPropertySource(locations = "classpath:application-test.properties")
+@ExtendWith(MockitoExtension.class)
 public class DServiceImplTest {
 
     private static final Integer TEST_ID = 1;
@@ -53,7 +48,7 @@ public class DServiceImplTest {
     @Test
     void positive_Delete_D_by_entity() {
         D d = getD();
-        doNothing().when(dDao).delete(d);
+        lenient().doNothing().when(dDao).delete(d);
     }
 
     @Test
@@ -80,7 +75,6 @@ public class DServiceImplTest {
     @Test
     void should_update_D() {
         D d = getD();
-        when(dDao.findById(TEST_ID)).thenReturn(Optional.of(d));
         when(dDao.save(d)).thenReturn(d);
         d.setHero(HULK);
         D dExpected = service.save(d);

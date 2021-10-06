@@ -17,7 +17,7 @@ public interface AService {
 
     A getById(Integer id);
 
-    void update(A a);
+    A update(A a);
 
     A findById(Integer id);
 

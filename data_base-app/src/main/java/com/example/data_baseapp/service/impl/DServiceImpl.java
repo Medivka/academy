@@ -45,9 +45,9 @@ public class DServiceImpl implements DService {
     }
 
     @Override
-    public void update(D d) {
+    public D update(D d) {
 //        daoEntity.update(d);
-        dao.save(d);
+      return   dao.save(d);
     }
 
     @Override

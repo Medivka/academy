@@ -46,17 +46,13 @@ public class DRestController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/{id}")
+    @PostMapping(value = "/{id}")
     public ResponseEntity<?> update(@PathVariable(name = "id") Integer id, @RequestBody DDto dDto) {
         LOGGER.info(String.format("rest/d/get/{%s} ", id));
-        boolean update = false;
         if (service.exist(myModelMapper.map(dDto, D.class))) {
-            service.update(myModelMapper.map(dDto, D.class));
-            update = true;
+            return new ResponseEntity<>(service.update(myModelMapper.map(dDto, D.class)), HttpStatus.OK);
         }
-        return update
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
     @DeleteMapping(value = "/{id}")

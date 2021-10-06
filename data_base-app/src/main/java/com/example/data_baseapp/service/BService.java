@@ -15,7 +15,7 @@ public interface BService {
 
     B getById(Integer id);
 
-    void update(B b);
+    B update(B b);
 
     B findById(Integer id);
 

@@ -48,17 +48,14 @@ public class BRestController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/{id}")
+    @PostMapping(value = "/{id}")
     public ResponseEntity<?> update(@PathVariable(name = "id") Integer id, @RequestBody BDto bDto) {
         LOGGER.info(String.format("rest/update/get/{%s} ", id));
-        Boolean update = false;
-        B b = myModelMapper.map(bDto, B.class);
-        if (service.exist(b)) {
-            service.update(b);
-            update = true;
+        if (service.exist(myModelMapper.map(bDto, B.class))) {
+            BDto bDto1 = myModelMapper.map(service.update(myModelMapper.map(bDto, B.class)), BDto.class);
+            return new ResponseEntity<>(bDto1, HttpStatus.OK);
         }
-        return update ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
     @DeleteMapping(value = "/{id}")

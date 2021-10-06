@@ -43,21 +43,20 @@ public class ARestController {
     @PostMapping(value = "/")
     public ResponseEntity<?> create(@RequestBody ADto aDto) {
         LOGGER.info(String.format("rest/save %s", aDto.getName()));
-        service.save(myModelMapper.map((aDto), A.class));
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        A save = service.save(myModelMapper.map((aDto), A.class));
+        LOGGER.info(String.format("created {%s} ", save));
+        return new ResponseEntity<>(save, HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/{id}")
+    @PostMapping(value = "/{id}")
     public ResponseEntity<?> update(@PathVariable(name = "id") Integer id, @RequestBody ADto aDto) {
         LOGGER.info(String.format("rest/a/get/{%s} ", id));
-        boolean update = false;
         if (service.exist(myModelMapper.map(aDto, A.class))) {
-            service.update(myModelMapper.map(aDto, A.class));
-            update = true;
+            ADto updated = myModelMapper.map(service.update(myModelMapper.map(aDto, A.class)), ADto.class);
+            LOGGER.info(String.format("updated {%s} ", updated));
+            return new ResponseEntity<>(updated, HttpStatus.OK);
         }
-        return update
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
     @DeleteMapping(value = "/{id}")

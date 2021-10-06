@@ -9,11 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,7 +22,6 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.LENIENT)
 class BServiceImplTest {
 
     private static final Integer TEST_ID = 1;
@@ -52,7 +48,7 @@ class BServiceImplTest {
     @Test
     void positive_Delete_B_by_entity() {
         B b = getB();
-        doNothing().when(bDao).delete(b);
+        lenient().doNothing().when(bDao).delete(b);
     }
 
     @Test
@@ -79,10 +75,9 @@ class BServiceImplTest {
     @Test
     void should_update_B() {
         B b = getB();
-        when(bDao.findById(TEST_ID)).thenReturn(Optional.of(b));
         when(bDao.save(b)).thenReturn(b);
         b.setAddress(ADDRESS_SECOND);
-        B bExpected = bService.save(b);
+        B bExpected = bService.update(b);
         assertThat(bExpected).isEqualTo(b);
     }
 

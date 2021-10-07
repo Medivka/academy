@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -29,10 +30,10 @@ public class A {
     private String tree;
     private String apple;
 
-    @OneToMany(mappedBy = "a", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "a", fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
     private List<C> cList = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
     @JoinColumn(name = "b")
     private B b;
 }

@@ -80,7 +80,7 @@ class CRestControllerTest {
         CDto cDto = mapper.map(service.save(getC()), CDto.class);
         C c = service.save(getC());
         MvcResult mvcResult = mockMvc
-                .perform(put("/rest/c/{id}", c.getId())
+                .perform(post("/rest/c/{id}", c.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(cDto)))
                 .andDo(print()).andExpect(status().isOk()).andReturn();
@@ -94,7 +94,7 @@ class CRestControllerTest {
     void shouldResponse400_update_C_with_InvalidID() {
         CDto cDto = getCDto();
         MvcResult mvcResult = mockMvc
-                .perform(put("/rest/c/{id}", invalidID)
+                .perform(post("/rest/c/{id}", invalidID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(cDto)))
                 .andDo(print()).andExpect(status().is4xxClientError()).andReturn();

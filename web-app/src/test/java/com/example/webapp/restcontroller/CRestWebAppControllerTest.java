@@ -1,7 +1,7 @@
 package com.example.webapp.restcontroller;
 
-
-import com.example.webapp.model.modelDTO.ADto;
+import com.example.webapp.model.modelDTO.BDto;
+import com.example.webapp.model.modelDTO.CDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import lombok.SneakyThrows;
@@ -23,39 +23,43 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * @author Sacuta V.A.
+ */
 
 @TestPropertySource(
         locations = {"classpath:application-integration.properties", "classpath:wiremock-endpoints.properties"})
 @AutoConfigureWireMock(port = DYNAMIC_PORT)
 @SpringBootTest
 @AutoConfigureMockMvc
-class ARestWebAppControllerTest {
+public class CRestWebAppControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
 
-    private ADto getADto() {
+
+    private CDto getCDto() {
         Integer id = 1;
-        return ADto.builder()
+        return CDto.builder()
                 .id(id)
                 .name("name")
-                .apple("apple")
-                .tree("dub")
-                .enable("yes")
-                .password("security")
+                .age(23)
+                .car("BMW")
+                .memory(300)
                 .build();
     }
+
 
     @SneakyThrows
     @Test
     void shouldResponseStatus200_Ok_withValidId() {
-        ADto dto = getADto();
+        CDto dto = getCDto();
         Integer id = dto.getId();
         String bDtoJSON = objectMapper.writeValueAsString(dto);
-        WireMock.stubFor(WireMock.get("/rest/a/" + dto.getId()).willReturn(WireMock.okJson(bDtoJSON)));
-        MvcResult mvcResult = mockMvc.perform(get("/web/a/" + id)
+        WireMock.stubFor(WireMock.get("/rest/c/" + dto.getId()).willReturn(WireMock.okJson(bDtoJSON)));
+        MvcResult mvcResult = mockMvc.perform(get("/web/c/" + id)
                         .with(user("admin").password("admin").roles("AUTHOR")))
                 .andDo(print())
                 .andExpect(status().isOk()).andReturn();
@@ -66,12 +70,12 @@ class ARestWebAppControllerTest {
 
     @SneakyThrows
     @Test
-    void shouldResponseStatus401_whenGetByIdADtoWithOutAuthorize() {
-        ADto dto = getADto();
+    void shouldResponseStatus401_whenGetByIdCdtoWithOutAuthorize() {
+        CDto dto = getCDto();
         Integer id = dto.getId();
         String bDtoJSON = objectMapper.writeValueAsString(dto);
-        WireMock.stubFor(WireMock.get("/rest/a/" + dto.getId()).willReturn(WireMock.okJson(bDtoJSON)));
-        MvcResult mvcResult = mockMvc.perform(get("/web/a/" + id))
+        WireMock.stubFor(WireMock.get("/rest/c/" + dto.getId()).willReturn(WireMock.okJson(bDtoJSON)));
+        MvcResult mvcResult = mockMvc.perform(get("/web/c/" + id))
                 .andDo(print())
                 .andExpect(status().is4xxClientError()).andReturn();
         int expectedStatusCode = HttpStatus.UNAUTHORIZED.value();
@@ -81,11 +85,11 @@ class ARestWebAppControllerTest {
 
     @SneakyThrows
     @Test
-    void shouldReturnStatus200_WhenSaveADtoWithValidJson() {
-        ADto expected = getADto();
+    void shouldReturnStatus200_WhenSaveCDtoWithValidJson() {
+        CDto expected = getCDto();
         String validJson = objectMapper.writeValueAsString(expected);
-        WireMock.stubFor(WireMock.post("/rest/a/").willReturn(WireMock.ok()));
-        MvcResult mvcResult = mockMvc.perform(post("/web/a/")
+        WireMock.stubFor(WireMock.post("/rest/c/").willReturn(WireMock.ok()));
+        MvcResult mvcResult = mockMvc.perform(post("/web/c/")
                         .with(user("admin").password("admin").roles("AUTHOR"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(validJson))
@@ -97,9 +101,9 @@ class ARestWebAppControllerTest {
 
     @SneakyThrows
     @Test
-    void shouldReturnStatus4xx_WhenSaveADtoWithInValidJson() {
-        WireMock.stubFor(WireMock.post("/rest/a/").willReturn(WireMock.ok()));
-        MvcResult mvcResult = mockMvc.perform(post("/web/a/")
+    void shouldReturnStatus4xx_WhenSaveCDtoWithInValidJson() {
+        WireMock.stubFor(WireMock.post("/rest/c/").willReturn(WireMock.ok()));
+        MvcResult mvcResult = mockMvc.perform(post("/web/c/")
                         .with(user("admin").password("admin").roles("AUTHOR"))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError()).andReturn();
@@ -108,14 +112,15 @@ class ARestWebAppControllerTest {
         assertThat(actualStatusCode).isEqualTo(expectedStatusCode);
     }
 
+
     @SneakyThrows
     @Test
-    void shouldResponseStatus200_Ok_when_UpdateADtoWithValidJson() {
-        ADto expected = getADto();
+    void shouldResponseStatus200_Ok_when_UpdateCDtoWithValidJson() {
+        CDto expected = getCDto();
         expected.setName("new name");
         String validJson = objectMapper.writeValueAsString(expected);
-        WireMock.stubFor(WireMock.post("/rest/a/" + expected.getId()).willReturn(WireMock.ok()));
-        MvcResult mvcResult = mockMvc.perform(post("/web/a/" + expected.getId())
+        WireMock.stubFor(WireMock.post("/rest/c/" + expected.getId()).willReturn(WireMock.ok()));
+        MvcResult mvcResult = mockMvc.perform(post("/web/c/" + expected.getId())
                         .with(user("admin").password("admin").roles("AUTHOR"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(validJson))
@@ -128,10 +133,10 @@ class ARestWebAppControllerTest {
     @SneakyThrows
     @Test
     void shouldReturnStatus200_whenDeleteWithValidID() {
-        ADto expected = getADto();
+        CDto expected = getCDto();
         Integer id = expected.getId();
-        WireMock.stubFor(WireMock.delete("/rest/a/" + expected.getId()).willReturn(WireMock.aResponse().withStatus(200)));
-        MvcResult mvcResult = mockMvc.perform(delete("/web/a/{id}", id)
+        WireMock.stubFor(WireMock.delete("/rest/c/" + expected.getId()).willReturn(WireMock.aResponse().withStatus(200)));
+        MvcResult mvcResult = mockMvc.perform(delete("/web/c/{id}", id)
                         .with(user("admin").password("admin").roles("AUTHOR")))
                 .andExpect(status().isOk()).andReturn();
         int expectedStatusCode = HttpStatus.OK.value();
@@ -139,3 +144,4 @@ class ARestWebAppControllerTest {
         assertThat(actualStatusCode).isEqualTo(expectedStatusCode);
     }
 }
+

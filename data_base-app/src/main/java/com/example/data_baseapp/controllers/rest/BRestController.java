@@ -60,7 +60,7 @@ public class BRestController {
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> delete(@PathVariable(name = "id") Integer id) {
-        LOGGER.info(String.format("rest/b/delete/{%s} ", id));
+        LOGGER.info(String.format("rest/b/{%s} ", id));
         boolean delete = false;
         if (service.exist(service.findById(id))) {
             service.delete(service.findById(id));
@@ -73,7 +73,7 @@ public class BRestController {
 
     @GetMapping(value = "/all")
     public ResponseEntity<List<BDto>> read() {
-        LOGGER.info("rest/b/get/all ");
+        LOGGER.info("rest/b/all ");
         List<BDto> bDtoList = myModelMapper.mapCollections(service.getAll(), BDto.class);
         return bDtoList != null && !bDtoList.isEmpty()
                 ? new ResponseEntity<>(bDtoList, HttpStatus.OK)

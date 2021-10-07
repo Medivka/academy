@@ -80,7 +80,7 @@ class BRestControllerTest {
         BDto bDto = mapper.map(service.save(getB()), BDto.class);
         B b = service.save(getB());
         MvcResult mvcResult = mockMvc
-                .perform(put("/rest/b/{id}", b.getId())
+                .perform(post("/rest/b/{id}", b.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(bDto)))
                 .andDo(print()).andExpect(status().isOk()).andReturn();
@@ -94,7 +94,7 @@ class BRestControllerTest {
     void shouldResponse400_update_B_with_InvalidID() {
         BDto bDto = getBDto();
         MvcResult mvcResult = mockMvc
-                .perform(put("/rest/b/{id}", invalidID)
+                .perform(post("/rest/b/{id}", invalidID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(bDto)))
                 .andDo(print()).andExpect(status().is4xxClientError()).andReturn();

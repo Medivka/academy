@@ -82,7 +82,7 @@ class DRestControllerTest {
         DDto dDto = mapper.map(service.save(getD()), DDto.class);
         D d = service.save(getD());
         MvcResult mvcResult = mockMvc
-                .perform(put("/rest/d/{id}", d.getId())
+                .perform(post("/rest/d/{id}", d.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dDto)))
                 .andDo(print()).andExpect(status().isOk()).andReturn();
@@ -96,7 +96,7 @@ class DRestControllerTest {
     void shouldResponse400_update_D_with_InvalidID() {
         DDto dDto = getDDto();
         MvcResult mvcResult = mockMvc
-                .perform(put("/rest/d/{id}", invalidID)
+                .perform(post("/rest/d/{id}", invalidID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dDto)))
                 .andDo(print()).andExpect(status().is4xxClientError()).andReturn();

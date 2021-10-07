@@ -23,8 +23,8 @@ services:
 
   data-base-app:
     image: openjdk:11.0.10
-#    ports:
-#      - 8003:8003
+    ports:
+      - 8003:8003
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/academy?createDatabaseIfNotExist=true
     depends_on:

@@ -85,7 +85,7 @@ class ARestControllerTest {
         ADto aDto = mapper.map(aService.save(getA()), ADto.class);
         A a = aService.save(getA());
         MvcResult mvcResult = mockMvc
-                .perform(put("/rest/a/{id}", a.getId())
+                .perform(post("/rest/a/{id}", a.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(aDto)))
                 .andDo(print()).andExpect(status().isOk()).andReturn();
@@ -99,7 +99,7 @@ class ARestControllerTest {
     void shouldResponse400_update_A_with_InvalidID() {
         ADto aDto = getADto();
         MvcResult mvcResult = mockMvc
-                .perform(put("/rest/a/{id}", invalidID)
+                .perform(post("/rest/a/{id}", invalidID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(aDto)))
                 .andDo(print()).andExpect(status().is4xxClientError()).andReturn();
@@ -112,8 +112,11 @@ class ARestControllerTest {
     @Test
     void should_ResponseIs200_Ok_Delete_with_Valid_id_A() {
         A a = aService.save(getA());
-        mockMvc.perform(delete("/rest/a/{id}", a.getId()))
-                .andExpect(status().isOk());
+        MvcResult mvcResult =  mockMvc.perform(delete("/rest/a/{id}", a.getId()))
+                .andExpect(status().isOk()).andReturn();
+        int expectedStatusCode = HttpStatus.OK.value();
+        int actualStatusCode = mvcResult.getResponse().getStatus();
+        assertThat(actualStatusCode).isEqualTo(expectedStatusCode);
     }
 
     @SneakyThrows

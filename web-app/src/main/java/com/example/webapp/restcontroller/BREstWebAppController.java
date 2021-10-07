@@ -1,9 +1,8 @@
 package com.example.webapp.restcontroller;
 
 import com.example.webapp.model.modelDTO.BDto;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import com.example.webapp.service.BRestService;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * @author Sacuta V.A.
@@ -13,32 +12,29 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping("web/b")
 public class BREstWebAppController {
 
-    private static final String URL_BY_ID="http://data-base-app:8003/rest/b/{id}";
-    private static final String URL_SAVE="http://data-base-app:8003/rest/b/";
+    private final BRestService bRestService;
 
-    private final RestTemplate restTemplate;
-
-    public BREstWebAppController(RestTemplateBuilder restTemplateBuilder) {
-        this.restTemplate = restTemplateBuilder.build();
+    public BREstWebAppController(BRestService bRestService) {
+        this.bRestService = bRestService;
     }
 
     @GetMapping(value = "/{id}")
     public BDto getById(@PathVariable(name = "id") int id) {
-        return this.restTemplate.getForObject(URL_BY_ID, BDto.class, id);
+        return bRestService.getByIdB(id);
     }
 
-    @PostMapping(value = "/save")
-    public void create(@RequestBody BDto bDto) {
-        this.restTemplate.postForObject(URL_SAVE, bDto, BDto.class);
+    @PostMapping(value = "/")
+    public BDto create(@RequestBody BDto bDto) {
+        return bRestService.save(bDto);
     }
 
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable(name = "id") Integer id) {
-        this.restTemplate.delete(URL_BY_ID, id);
+        bRestService.delete(id);
     }
 
-    @PutMapping(value = "/{id}")
-    public void update(@PathVariable(name = "id") Integer id, @RequestBody BDto bDto) {
-        this.restTemplate.put(URL_BY_ID, bDto, id);
+    @PostMapping(value = "/{id}")
+    public BDto update(@PathVariable(name = "id") Integer id, @RequestBody BDto bDto) {
+        return bRestService.update(bDto, id);
     }
 }

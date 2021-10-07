@@ -1,10 +1,8 @@
 package com.example.webapp.restcontroller;
 
-import com.example.webapp.model.modelDTO.CDto;
 import com.example.webapp.model.modelDTO.DDto;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import com.example.webapp.service.DRestService;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * @author Sacuta V.A.
@@ -14,29 +12,29 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping("web/d")
 public class DRestWebAppController {
 
-    private final RestTemplate restTemplate;
+   private final DRestService dRestService;
 
-    public DRestWebAppController(RestTemplateBuilder restTemplateBuilder) {
-        this.restTemplate = restTemplateBuilder.build();
+    public DRestWebAppController(DRestService dRestService) {
+        this.dRestService = dRestService;
     }
 
     @GetMapping(value = "/{id}")
     public DDto getByIdAtService(@PathVariable(name = "id") int id) {
-        return this.restTemplate.getForObject("http://data-base-app:8003/rest/d/{id}", DDto.class, id);
+        return dRestService.getById(id);
     }
 
-    @PostMapping(value = "/save")
-    public void create(@RequestBody DDto dDto) {
-        this.restTemplate.postForObject("http://data-base-app:8003/rest/d/save", dDto, DDto.class);
+    @PostMapping(value = "/")
+    public DDto create(@RequestBody DDto dDto) {
+        return dRestService.save(dDto);
     }
 
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable(name = "id") Integer id) {
-        this.restTemplate.delete("http://data-base-app:8003/rest/d/{id}", id);
+        dRestService.delete(id);
     }
 
-    @PutMapping(value = "/{id}")
-    public void update(@PathVariable(name = "id") Integer id, @RequestBody DDto dDto){
-        this.restTemplate.put("http://data-base-app:8003/rest/d/{id}",dDto,id);
+    @PostMapping(value = "/{id}")
+    public DDto update(@PathVariable(name = "id") Integer id, @RequestBody DDto dDto){
+        return dRestService.update(dDto,id);
     }
 }

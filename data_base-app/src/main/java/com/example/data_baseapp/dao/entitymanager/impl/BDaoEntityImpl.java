@@ -1,7 +1,6 @@
 package com.example.data_baseapp.dao.entitymanager.impl;
 
 import com.example.data_baseapp.dao.entitymanager.BDaoEntity;
-import com.example.data_baseapp.domain.model.A;
 import com.example.data_baseapp.domain.model.B;
 import com.example.data_baseapp.hibernate.HibernateSessionFactoryUtil;
 import org.hibernate.Session;
@@ -39,7 +38,6 @@ public class BDaoEntityImpl implements BDaoEntity {
         session.merge(b);
         tx1.commit();
         session.close();
-
     }
 
     @Override
@@ -50,7 +48,6 @@ public class BDaoEntityImpl implements BDaoEntity {
         session.close();
         return b;
 //        return entityManager.find(B.class, id);
-
     }
 
     @Override
@@ -66,8 +63,6 @@ public class BDaoEntityImpl implements BDaoEntity {
     @Override
     public List<B> getGuestList() {
         List<B> bList = (List<B>) HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("From B").list();
-
         return bList;
     }
-
 }

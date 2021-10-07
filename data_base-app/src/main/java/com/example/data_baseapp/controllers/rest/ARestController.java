@@ -62,14 +62,11 @@ public class ARestController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> delete(@PathVariable(name = "id") Integer id) {
         LOGGER.info(String.format("rest/a/delete/{%s} ", id));
-        boolean delete = false;
-        if (service.exist(service.findById(id))) {
+           if (service.exist(service.findById(id))) {
             service.delete(service.findById(id));
-            delete = true;
+            return new ResponseEntity<>(HttpStatus.OK);
         }
-        return delete
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        return  new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
     @GetMapping(value = "/all")

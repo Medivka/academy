@@ -47,7 +47,7 @@ public class CServiceImpl implements CService {
     @Override
     public C update(C c) {
 //        cdaoEntity.update(c);
-       return cDao.save(c);
+        return cDao.save(c);
     }
 
     @Override

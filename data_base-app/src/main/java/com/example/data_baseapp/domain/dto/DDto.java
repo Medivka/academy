@@ -1,6 +1,5 @@
 package com.example.data_baseapp.domain.dto;
 
-import com.example.data_baseapp.domain.model.Single;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

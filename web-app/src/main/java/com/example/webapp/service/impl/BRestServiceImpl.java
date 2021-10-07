@@ -1,6 +1,5 @@
 package com.example.webapp.service.impl;
 
-import com.example.webapp.model.modelDTO.ADto;
 import com.example.webapp.model.modelDTO.BDto;
 import com.example.webapp.service.BRestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +39,6 @@ public class BRestServiceImpl implements BRestService {
 
     @Override
     public BDto update(BDto bDto, Integer id) {
-        return restTemplate.postForEntity(getURL_for_B+id, bDto, BDto.class).getBody();
+        return restTemplate.postForEntity(getURL_for_B + id, bDto, BDto.class).getBody();
     }
 }

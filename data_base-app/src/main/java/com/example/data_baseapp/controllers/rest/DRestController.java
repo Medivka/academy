@@ -32,7 +32,7 @@ public class DRestController {
 
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<DDto> getByIdAtService(@PathVariable(name = "id") int id) {
+    public ResponseEntity<DDto> getById(@PathVariable(name = "id") int id) {
         DDto dDto = myModelMapper.map((service.getById(id)), DDto.class);
         return dDto != null
                 ? new ResponseEntity<>(dDto, HttpStatus.OK)
@@ -58,14 +58,11 @@ public class DRestController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> delete(@PathVariable(name = "id") Integer id) {
         LOGGER.info(String.format("rest/d/delete/{%s} ", id));
-        boolean delete = false;
         if (service.exist(service.findById(id))) {
             service.delete(service.findById(id));
-            delete = true;
+            return new ResponseEntity<>(HttpStatus.OK);
         }
-        return delete
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
     @GetMapping(value = "/all")

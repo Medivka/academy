@@ -12,10 +12,12 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
 public class HibernateSessionFactoryUtil {
+
     private static SessionFactory sessionFactory;
 
     private HibernateSessionFactoryUtil() {
     }
+
     @SneakyThrows
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {

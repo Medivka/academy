@@ -29,7 +29,6 @@ public class ProfileServiceImpl implements ProfileService {
     public ProfileServiceImpl(ProfileDao profileDao, RoleDao roleDao) {
         this.profileDao = profileDao;
         this.roleDao = roleDao;
-
     }
 
 
@@ -48,12 +47,12 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public void createNewProfile(String username, String password) {
-       profileDao.save(Profile.builder()
-               .username(username)
-               .password(password)
-               .build());
+        profileDao.save(Profile.builder()
+                .username(username)
+                .password(password)
+                .build());
         LOGGER.info("create new profile  " + username);
-            }
+    }
 
     @Override
     public void save(Profile profile) {
@@ -75,8 +74,8 @@ public class ProfileServiceImpl implements ProfileService {
         LOGGER.info("update profile  " + profile.getId());
         Profile profileInDB = profileDao.getById(profile.getId());
         profileInDB.setUsername(profile.getUsername());
-            profileInDB.setPassword(profile.getPassword());
-              profileDao.save(profileInDB);
+        profileInDB.setPassword(profile.getPassword());
+        profileDao.save(profileInDB);
     }
 
     @Override

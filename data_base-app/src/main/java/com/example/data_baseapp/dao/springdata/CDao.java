@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public interface CDao extends JpaRepository<C,Integer> {
+public interface CDao extends JpaRepository<C, Integer> {
 }

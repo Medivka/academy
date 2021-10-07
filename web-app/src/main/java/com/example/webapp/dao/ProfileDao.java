@@ -11,11 +11,11 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface ProfileDao extends JpaRepository<Profile,Long> {
+public interface ProfileDao extends JpaRepository<Profile, Long> {
 
     Profile findByUsername(String username);
 
     @Query("select s FROM Profile s where s.username =:username")
-    Profile myUsernameCustomFind(String username) ;
+    Profile myUsernameCustomFind(String username);
 
 }

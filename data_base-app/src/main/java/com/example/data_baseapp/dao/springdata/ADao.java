@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public interface ADao extends JpaRepository<A,Integer> {
+public interface ADao extends JpaRepository<A, Integer> {
     @Query("select s FROM A s where s.name =:name")
-    A findMyByName(String name) ;
+    A findMyByName(String name);
 }

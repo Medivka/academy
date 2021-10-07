@@ -1,8 +1,6 @@
 package com.example.data_baseapp.dao.entitymanager;
 
-import com.example.data_baseapp.domain.model.A;
 import com.example.data_baseapp.domain.model.B;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

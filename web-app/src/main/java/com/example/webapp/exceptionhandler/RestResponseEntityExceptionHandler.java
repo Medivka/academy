@@ -13,12 +13,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
  */
 
 
-//@ControllerAdvice
+@ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value= {RuntimeException.class, IllegalStateException.class})
+    @ExceptionHandler(value = {RuntimeException.class, IllegalStateException.class})
     protected ResponseEntity<Object> handleConflict(RuntimeException ex, WebRequest request) {
         String bodyOfResponse = "only relax";
-        return handleExceptionInternal(ex, bodyOfResponse,new HttpHeaders(), HttpStatus.CONFLICT, request);
+        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
 }

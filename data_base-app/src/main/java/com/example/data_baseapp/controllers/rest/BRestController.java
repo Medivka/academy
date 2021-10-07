@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.StyledEditorKit;
 import java.util.List;
 
 /**
@@ -34,7 +33,7 @@ public class BRestController {
 
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<BDto> getByIdAtService(@PathVariable(name = "id") int id) {
+    public ResponseEntity<BDto> getById(@PathVariable(name = "id") int id) {
         final BDto bDto = myModelMapper.map(service.findById(id), BDto.class);
         return bDto != null
                 ? new ResponseEntity<>(bDto, HttpStatus.OK)
@@ -61,14 +60,11 @@ public class BRestController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> delete(@PathVariable(name = "id") Integer id) {
         LOGGER.info(String.format("rest/b/{%s} ", id));
-        boolean delete = false;
         if (service.exist(service.findById(id))) {
             service.delete(service.findById(id));
-            delete = true;
+            return new ResponseEntity<>(HttpStatus.OK);
         }
-        return delete
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
     @GetMapping(value = "/all")
@@ -79,5 +75,4 @@ public class BRestController {
                 ? new ResponseEntity<>(bDtoList, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
 }

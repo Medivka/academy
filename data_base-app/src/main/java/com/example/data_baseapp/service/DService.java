@@ -21,5 +21,6 @@ public interface DService {
     D findById(Integer id);
 
     List<D> getAll();
+
     Boolean exist(D d);
 }

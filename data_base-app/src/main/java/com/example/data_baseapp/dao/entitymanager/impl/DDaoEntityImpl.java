@@ -1,7 +1,6 @@
 package com.example.data_baseapp.dao.entitymanager.impl;
 
 import com.example.data_baseapp.dao.entitymanager.DDaoEntity;
-import com.example.data_baseapp.domain.model.C;
 import com.example.data_baseapp.domain.model.D;
 import com.example.data_baseapp.hibernate.HibernateSessionFactoryUtil;
 import org.hibernate.Session;
@@ -47,11 +46,10 @@ public class DDaoEntityImpl implements DDaoEntity {
     public D findById(Integer id) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
-        D d  = session.get(D.class, id);
+        D d = session.get(D.class, id);
         session.close();
         return d;
 //        return entityManager.find(D.class, id);
-
     }
 
     @Override
@@ -67,7 +65,6 @@ public class DDaoEntityImpl implements DDaoEntity {
     @Override
     public List<D> getGuestList() {
         List<D> dList = (List<D>) HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("From D").list();
-
         return dList;
     }
 }

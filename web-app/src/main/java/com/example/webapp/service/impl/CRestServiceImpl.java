@@ -40,6 +40,5 @@ public class CRestServiceImpl implements CRestService {
     @Override
     public CDto update(CDto cDto, Integer id) {
         return restTemplate.postForEntity(getURL_for_C + id, cDto, CDto.class).getBody();
-
     }
 }

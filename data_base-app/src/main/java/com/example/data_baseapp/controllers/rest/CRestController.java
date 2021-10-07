@@ -32,7 +32,7 @@ public class CRestController {
 
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<CDto> getByIdAtService(@PathVariable(name = "id") int id) {
+    public ResponseEntity<CDto> getById(@PathVariable(name = "id") int id) {
         CDto cDto = myModelMapper.map(service.findById(id), CDto.class);
         return cDto != null
                 ? new ResponseEntity<>(cDto, HttpStatus.OK)
@@ -58,14 +58,12 @@ public class CRestController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deleteC(@PathVariable(name = "id") Integer id) {
         LOGGER.info(String.format("rest/c/delete/{%s} ", id));
-        boolean delete = false;
+
         if (service.exist(service.findById(id))) {
             service.delete(service.findById(id));
-            delete = true;
+            return new ResponseEntity<>(HttpStatus.OK);
         }
-        return delete
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
     @GetMapping(value = "/all")

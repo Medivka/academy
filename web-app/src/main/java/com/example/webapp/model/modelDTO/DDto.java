@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DDto {
     private Integer id;
-    private String  isAlone;
+    private String isAlone;
     private String name;
     private Integer number;
     private Integer cinema;

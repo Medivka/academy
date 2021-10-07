@@ -20,10 +20,10 @@ public class ADaoEntityImpl implements ADaoEntity {
 
     @PersistenceContext
     private EntityManager entityManager;
+
     @Override
     public void save(A a) {
 //        entityManager.persist(a);                     //Entity Manager
-        //Session
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
         session.save(a);
@@ -31,27 +31,27 @@ public class ADaoEntityImpl implements ADaoEntity {
         session.close();
 
     }
-    @Override
-    public void update(A a){
-//        entityManager.merge(a);
 
+    @Override
+    public void update(A a) {
+//        entityManager.merge(a);
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
         session.merge(a);
         tx1.commit();
         session.close();
-
     }
+
     @Override
     public A findById(Integer id) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
-        A a=session.get(A.class,id);
+        A a = session.get(A.class, id);
         session.close();
         return a;
 //        return entityManager.find(A.class, id);
-
     }
+
     @Override
     public void delete(A a) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
@@ -61,11 +61,10 @@ public class ADaoEntityImpl implements ADaoEntity {
         session.close();
 //        entityManager.remove(a);
     }
+
     @Override
     public List<A> getGuestList() {
         List<A> aList = (List<A>) HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("From A").list();
-
         return aList;
     }
-
 }

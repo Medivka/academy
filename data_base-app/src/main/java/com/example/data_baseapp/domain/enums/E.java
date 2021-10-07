@@ -6,5 +6,5 @@ package com.example.data_baseapp.domain.enums;
 
 
 public enum E {
-    ON,OFF,IN,AT
+    ON, OFF, IN, AT
 }

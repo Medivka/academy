@@ -12,7 +12,6 @@ import java.util.List;
 
 public interface ProfileService {
 
-
     boolean existsByUsername(String username);
 
     Profile findByUsername(String username);

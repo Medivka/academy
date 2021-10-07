@@ -112,7 +112,7 @@ class ARestControllerTest {
     @Test
     void should_ResponseIs200_Ok_Delete_with_Valid_id_A() {
         A a = aService.save(getA());
-        MvcResult mvcResult =  mockMvc.perform(delete("/rest/a/{id}", a.getId()))
+        MvcResult mvcResult = mockMvc.perform(delete("/rest/a/{id}", a.getId()))
                 .andExpect(status().isOk()).andReturn();
         int expectedStatusCode = HttpStatus.OK.value();
         int actualStatusCode = mvcResult.getResponse().getStatus();

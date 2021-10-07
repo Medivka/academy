@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("web/d")
 public class DRestWebAppController {
 
-   private final DRestService dRestService;
+    private final DRestService dRestService;
 
     public DRestWebAppController(DRestService dRestService) {
         this.dRestService = dRestService;
@@ -34,7 +34,7 @@ public class DRestWebAppController {
     }
 
     @PostMapping(value = "/{id}")
-    public DDto update(@PathVariable(name = "id") Integer id, @RequestBody DDto dDto){
-        return dRestService.update(dDto,id);
+    public DDto update(@PathVariable(name = "id") Integer id, @RequestBody DDto dDto) {
+        return dRestService.update(dDto, id);
     }
 }

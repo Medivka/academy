@@ -11,8 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
-import javax.servlet.http.HttpServletResponse;
-
 /**
  * @author Sacuta V.A.
  */
@@ -27,13 +25,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.myCustomUserDetailsService = myCustomUserDetailsService;
         this.profileService = profileService;
     }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/reader").hasAnyRole("READER","AUTHOR","EDITOR")
-                .antMatchers("/editor").hasAnyRole("EDITOR","AUTHOR")
+                .antMatchers("/reader").hasAnyRole("READER", "AUTHOR", "EDITOR")
+                .antMatchers("/editor").hasAnyRole("EDITOR", "AUTHOR")
                 .antMatchers("/author").hasAnyRole("AUTHOR")
                 .anyRequest()
                 .authenticated()
@@ -41,26 +40,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .csrf().disable()
-//                .formLogin()
-//                .loginPage("/login")
-//                .permitAll()
                 .formLogin()
                 .disable()
                 .logout().logoutSuccessUrl("/");
-//                .logout(logout -> logout
-//                .permitAll()
-//                .logoutSuccessHandler((request, response, authentication) ->
-//                            response.setStatus(HttpServletResponse.SC_OK)
-//
-//                ));
-
     }
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-
 
     @Autowired
     public void configure(AuthenticationManagerBuilder auth)

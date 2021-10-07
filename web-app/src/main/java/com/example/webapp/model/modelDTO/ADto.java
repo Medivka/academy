@@ -20,6 +20,4 @@ public class ADto {
     private String enable;
     private String tree;
     private String apple;
-
-
 }

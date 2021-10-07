@@ -11,6 +11,7 @@ import java.util.List;
 
 public interface BService {
     Boolean exist(B b);
+
     B save(B b);
 
     B getById(Integer id);

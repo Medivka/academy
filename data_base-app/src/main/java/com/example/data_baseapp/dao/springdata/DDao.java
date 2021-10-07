@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public interface DDao extends JpaRepository<D,Integer> {
+public interface DDao extends JpaRepository<D, Integer> {
 }

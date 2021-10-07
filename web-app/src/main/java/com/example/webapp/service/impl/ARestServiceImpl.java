@@ -39,6 +39,6 @@ public class ARestServiceImpl implements ARestService {
 
     @Override
     public ADto update(ADto aDto, Integer id) {
-        return restTemplate.postForEntity(getURL_for_A +id, aDto, ADto.class).getBody();
+        return restTemplate.postForEntity(getURL_for_A + id, aDto, ADto.class).getBody();
     }
 }

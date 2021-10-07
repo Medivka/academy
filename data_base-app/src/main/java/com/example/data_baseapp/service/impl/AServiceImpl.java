@@ -28,7 +28,6 @@ public class AServiceImpl implements AService {
 
     @Override
     public A save(A a) {
-//
         return aDao.save(a);                             //Spring Data
     }
 
@@ -69,6 +68,4 @@ public class AServiceImpl implements AService {
     public A findByName(String name) {
         return aDao.findMyByName(name);
     }
-
-    ;
 }

@@ -1,11 +1,8 @@
 package com.example.data_baseapp.controllers.rest;
 
-import com.example.data_baseapp.domain.dto.CDto;
 import com.example.data_baseapp.domain.dto.DDto;
-import com.example.data_baseapp.domain.model.C;
 import com.example.data_baseapp.domain.model.D;
 import com.example.data_baseapp.modelmapper.MyModelMapper;
-import com.example.data_baseapp.service.CService;
 import com.example.data_baseapp.service.DService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;

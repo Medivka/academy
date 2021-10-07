@@ -1,7 +1,6 @@
 package com.example.data_baseapp.dao.entitymanager.impl;
 
 import com.example.data_baseapp.dao.entitymanager.CdaoEntity;
-import com.example.data_baseapp.domain.model.B;
 import com.example.data_baseapp.domain.model.C;
 import com.example.data_baseapp.hibernate.HibernateSessionFactoryUtil;
 import org.hibernate.Session;
@@ -18,6 +17,7 @@ import java.util.List;
 
 @Repository
 public class CDaoEntityImpl implements CdaoEntity {
+
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -39,18 +39,16 @@ public class CDaoEntityImpl implements CdaoEntity {
         session.merge(c);
         tx1.commit();
         session.close();
-
     }
 
     @Override
     public C findById(Integer id) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
-        C c  = session.get(C.class, id);
+        C c = session.get(C.class, id);
         session.close();
         return c;
 //        return entityManager.find(C.class, id);
-
     }
 
     @Override
@@ -66,8 +64,6 @@ public class CDaoEntityImpl implements CdaoEntity {
     @Override
     public List<C> getGuestList() {
         List<C> cList = (List<C>) HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("From C").list();
-
         return cList;
     }
-
 }

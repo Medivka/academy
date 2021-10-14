@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureWireMock(port = DYNAMIC_PORT)
 @SpringBootTest
 @AutoConfigureMockMvc
-class ARestWebAppControllerTest {
+class AIntegrationWebAppTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -107,6 +107,39 @@ class ARestWebAppControllerTest {
         int actualStatusCode = mvcResult.getResponse().getStatus();
         assertThat(actualStatusCode).isEqualTo(expectedStatusCode);
     }
+
+
+    @SneakyThrows
+    @Test
+    void shouldResponseStatus404_WhenIncorrectAddress() {
+        ADto dto = getADto();
+        Integer id = dto.getId();
+        String bDtoJSON = objectMapper.writeValueAsString(dto);
+        WireMock.stubFor(WireMock.get("/rest/a/" + dto.getId()).willReturn(WireMock.okJson(bDtoJSON)));
+        MvcResult mvcResult = mockMvc.perform(get("/rust" + id).with(user("admin").password("admin").roles("AUTHOR"))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError()).andReturn();
+        int expectedStatusCode = HttpStatus.NOT_FOUND.value();
+        int actualStatusCode = mvcResult.getResponse().getStatus();
+        assertThat(actualStatusCode).isEqualTo(expectedStatusCode);
+    }
+
+    @SneakyThrows
+    @Test
+    void ShouldReturnTrueJson_whenRequestADto() {
+        ADto dto = getADto();
+        Integer id = dto.getId();
+        String bDtoJSON = objectMapper.writeValueAsString(dto);
+        WireMock.stubFor(WireMock.get("/rest/a/" + dto.getId()).willReturn(WireMock.okJson(bDtoJSON)));
+        MvcResult mvcResult = mockMvc.perform(get("/web/a/" + id)
+                        .with(user("admin").password("admin").roles("AUTHOR")))
+                .andDo(print())
+                .andExpect(status().isOk()).andReturn();
+        String expectedJson = mvcResult.getResponse().getContentAsString();
+        assertThat(expectedJson).isEqualTo(bDtoJSON);
+    }
+
+
 
     @SneakyThrows
     @Test

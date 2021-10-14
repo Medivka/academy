@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureWireMock(port = DYNAMIC_PORT)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class CRestWebAppControllerTest {
+public class CIntegrationWebAppTest {
 
     @Autowired
     private MockMvc mockMvc;
